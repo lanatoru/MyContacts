@@ -8,6 +8,10 @@
 import UIKit
 
 class TableViewController: UITableViewController {
+    
+    //var arrayContacts: [Contact] = []
+    var arrayContacts = [Contact(name: "GGG", surname: "LLL", phoneNumber: "020393"),
+    Contact(name: "ddsds", surname: "ffdfddf", phoneNumber: "3484848")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,28 +22,70 @@ class TableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        do {
+                    if let data = UserDefaults.standard.data(forKey: "contactsArray") {
+                        
+                        let array = try JSONDecoder().decode([Contact].self, from: data)
+                        
+                        arrayContacts = array
+                        
+                        tableView.reloadData()
+                    }
+                } catch {
+                    print("unable to encode \(error)")
+                }
+    }
+    
+    func saveContacts() {
+           do {
+               
+               let encodedata = try JSONEncoder().encode(arrayContacts)
+               
+               UserDefaults.standard.set(encodedata, forKey: "contactsArray")
+               
+           } catch {
+               print("unable to encode \(error)")
+           }
+           
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return arrayContacts.count
     }
 
-    /*
+   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
 
         // Configure the cell...
+        
+        cell.textLabel?.text = arrayContacts[indexPath.row].name + " " + arrayContacts[indexPath.row].surname
+        
+        cell.detailTextLabel?.text = arrayContacts[indexPath.row].phoneNumber
 
         return cell
     }
-    */
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = storyboard?.instantiateViewController(identifier: "ContactViewController") as! ViewController
+        
+//        detailVC.nameTextField = arrayContacts[indexPath.row].name
+                
+        detailVC.newContact = arrayContacts[indexPath.row]
+        
+        navigationController?.show(detailVC, sender: self)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -49,17 +95,20 @@ class TableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            arrayContacts.remove(at: indexPath.row)
+            
+            saveContacts()
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

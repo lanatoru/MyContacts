@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Contact: Codable {
+    var name = ""
+    var surname = ""
+    var phoneNumber = ""
+}
