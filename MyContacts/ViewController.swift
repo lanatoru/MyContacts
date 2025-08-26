@@ -37,10 +37,10 @@ class ViewController: UIViewController {
             
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
             
-            print("contact was saved")
+            //print("contact was saved")
         } else {
             
-            let encodedData = try JSONEncoder().encode([contactName])
+            let encodedData = try JSONEncoder().encode([newContact])
             
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
         }
@@ -48,7 +48,13 @@ class ViewController: UIViewController {
         } catch {
             print("Unable to encode \(error)")
         }
+        
+        nameTextField.text = " "
+        surnameTextField.text = " "
+        phoneTextField.text = " "
     }
+    
+    
     
 }
 

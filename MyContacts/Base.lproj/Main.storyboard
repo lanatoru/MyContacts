@@ -161,7 +161,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Save changes"/>
                                 <connections>
-                                    <action selector="saveChanges:" destination="IOd-4l-HsA" eventType="touchUpInside" id="2JS-IE-vzw"/>
+                                    <action selector="saveChanges:" destination="IOd-4l-HsA" eventType="touchUpInside" id="BvY-t2-Ezm"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -169,9 +169,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="nameTextField" destination="W50-wn-fnp" id="ImM-pJ-4Gb"/>
-                        <outlet property="phoneTexField" destination="OsK-4C-1Mu" id="7qi-Cz-sK1"/>
-                        <outlet property="surnameTextField" destination="dj7-LK-NZn" id="Si2-Rb-0Uv"/>
+                        <outlet property="nameTextField" destination="W50-wn-fnp" id="X0d-qq-7Ev"/>
+                        <outlet property="phoneText" destination="OsK-4C-1Mu" id="Boe-iM-wm0"/>
+                        <outlet property="surnameText" destination="dj7-LK-NZn" id="QZb-gi-AHy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yr4-k5-CHA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

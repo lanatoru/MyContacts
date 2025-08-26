@@ -7,11 +7,13 @@
 
 import UIKit
 
-class ContactViewController: UIViewController {
+class ContactViewController: ViewController {
 
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var surnameTextField: UITextField!
-    @IBOutlet weak var phoneTexField: UITextField!
+    @IBOutlet weak var nameText: UITextField!
+    @IBOutlet weak var surnameText: UITextField!
+    @IBOutlet weak var phoneText: UITextField!
+    
+    var newContact1 = Contact()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +24,10 @@ class ContactViewController: UIViewController {
     @IBAction func saveChanges(_ sender: Any) {
         let contactName = nameTextField.text!
         let contactSurname = surnameTextField.text!
-        let contactPhone = phoneTexField.text!
+        let contactPhone = phoneTextField.text!
         
-        let newContact = Contact(name: contactName, surname: contactSurname, phoneNumber: contactPhone)
-        
+        newContact = Contact(name: contactName, surname: contactSurname, phoneNumber: contactPhone)
+    
         do { if let data = UserDefaults.standard.data(forKey: "contactArray") {
             
             var array = try JSONDecoder().decode([Contact].self, from: data)
@@ -37,7 +39,7 @@ class ContactViewController: UIViewController {
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
         } else {
             
-            let encodedData = try JSONEncoder().encode([contactName])
+            let encodedData = try JSONEncoder().encode([newContact1])
             
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
         }

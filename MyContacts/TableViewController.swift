@@ -9,9 +9,7 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    //var arrayContacts: [Contact] = []
-    var arrayContacts = [Contact(name: "GGG", surname: "LLL", phoneNumber: "020393"),
-    Contact(name: "ddsds", surname: "ffdfddf", phoneNumber: "3484848")]
+    var arrayContacts: [Contact] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +23,7 @@ class TableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         do {
-                    if let data = UserDefaults.standard.data(forKey: "contactsArray") {
+                    if let data = UserDefaults.standard.data(forKey: "contactArray") {
                         
                         let array = try JSONDecoder().decode([Contact].self, from: data)
                         
@@ -48,6 +46,7 @@ class TableViewController: UITableViewController {
            } catch {
                print("unable to encode \(error)")
            }
+       
            
     }
 
@@ -78,10 +77,9 @@ class TableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = storyboard?.instantiateViewController(identifier: "ContactViewController") as! ViewController
+
+        let detailVC = storyboard?.instantiateViewController(withIdentifier: "ContactViewController") as! ViewController
         
-//        detailVC.nameTextField = arrayContacts[indexPath.row].name
-                
         detailVC.newContact = arrayContacts[indexPath.row]
         
         navigationController?.show(detailVC, sender: self)
