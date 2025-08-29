@@ -15,6 +15,8 @@ class ContactViewController: ViewController {
     
     var newContact1 = Contact()
     
+    var contacts: [Contact] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,7 +28,9 @@ class ContactViewController: ViewController {
         let contactSurname = surnameTextField.text!
         let contactPhone = phoneTextField.text!
         
-        newContact = Contact(name: contactName, surname: contactSurname, phoneNumber: contactPhone)
+        
+        // передать контакты из arrayContacts
+        
     
         do { if let data = UserDefaults.standard.data(forKey: "contactArray") {
             
