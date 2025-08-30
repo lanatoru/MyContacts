@@ -7,7 +7,13 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UITableViewController, ContactViewControllerDelegate {
+    //делегат чтобы получить доступ к функции редактирования
+    func didUpdateContact(_ contact: Contact, at index: Int) {
+        arrayContacts[index] = contact
+        tableView.reloadData()
+    }
+    
     
     var arrayContacts: [Contact] = []
 
@@ -78,11 +84,20 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let detailVC = storyboard?.instantiateViewController(withIdentifier: "ContactViewController") as! ViewController
+        //let detailVC = storyboard?.instantiateViewController(withIdentifier: "ContactViewController") as! ViewController
         
-        detailVC.newContact = arrayContacts[indexPath.row]
-        
-        navigationController?.show(detailVC, sender: self)
+        if  let vc = storyboard?.instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController {
+            
+            let selectedContact = arrayContacts[indexPath.row]
+            
+            vc.contact = selectedContact
+            vc.contactIndex = indexPath.row
+            vc.delegate = self
+            
+            navigationController?.show(vc, sender: self)
+            
+            //navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     /*
@@ -106,7 +121,6 @@ class TableViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    
 
     /*
     // Override to support rearranging the table view.

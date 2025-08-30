@@ -7,43 +7,61 @@
 
 import UIKit
 
+protocol ContactViewControllerDelegate: AnyObject {
+    func didUpdateContact(_ contact: Contact, at index: Int)
+}
+
 class ContactViewController: ViewController {
 
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var surnameText: UITextField!
     @IBOutlet weak var phoneText: UITextField!
     
-    var newContact1 = Contact()
+    var contact = Contact(name: "", surname: "", phoneNumber: "")// контакт который будем редактировать
+    var contactIndex: Int? // его индекс в массиве
     
-    var contacts: [Contact] = []
+    weak var delegate: ContactViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        //отображаем информацию о контакте сразу при загрузке экрана
+        nameText.text = contact.name
+        surnameText.text = contact.surname
+        phoneText.text = contact.phoneNumber
+        
+        print("nameText:", nameText ?? "nil")
+        print("surnameText:", surnameText ?? "nil")
+        print("phoneText:", phoneText ?? "nil")
     }
     
     @IBAction func saveChanges(_ sender: Any) {
-        let contactName = nameTextField.text!
-        let contactSurname = surnameTextField.text!
-        let contactPhone = phoneTextField.text!
         
+     // guard var updated = contact, let index = contactIndex else { return }
         
-        // передать контакты из arrayContacts
+        contact.name = nameText.text ?? ""
+        contact.surname = surnameText.text ?? ""
+        contact.phoneNumber  = phoneText.text ?? ""
+    
+        if let index = contactIndex {
+                    delegate?.didUpdateContact(contact, at: index)
+                }
+        navigationController?.popViewController(animated: true)
         
     
         do { if let data = UserDefaults.standard.data(forKey: "contactArray") {
             
             var array = try JSONDecoder().decode([Contact].self, from: data)
             
-            array.append(newContact)
+            array.append(contact)
             
             let encodedData = try JSONEncoder().encode(array)
             
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
         } else {
             
-            let encodedData = try JSONEncoder().encode([newContact1])
+            let encodedData = try JSONEncoder().encode([contact])
             
             UserDefaults.standard.set(encodedData, forKey: "contactArray")
         }
